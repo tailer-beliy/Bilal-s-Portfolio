@@ -3,11 +3,13 @@ import tkinter as tk
 from tkinter import messagebox
 import os
 import webbrowser
+from PIL import Image, ImageTk
 try:
     with open("README.txt", "w", encoding="utf-8") as file:
         file.write(
             "Привет! Это инструкция пользования программой.\n"
             "Для начала работы закройте этот файл.\n"
+            'Если у вас не установлена библиотека "Pillow" то можете в командной строке написать:"pip install pillow".\n'
             "Для получения информации обо мне, нажмите на кликабельный блок с названием.\n"
             "Весь репозиторий записан на моём Github.\n"
             "После закрытия нажмите Enter в консоли."
@@ -18,8 +20,19 @@ try:
     input("После закрытия README.txt нажмите Enter...")
 except FileNotFoundError:
     print("Файл не найден")
-finally:
-    file.close()
+
+BUTTON_STYLE = {
+    "font": ("Segoe UI", 12, "bold"),
+    "width": 22,
+    "height": 2,
+    "bg": "#5C6B7A",      # серо-синий
+    "fg": "white",
+    "activebackground": "#44505D",
+    "activeforeground": "white",
+    "bd": 0,
+    "cursor": "hand2"
+}
+
 class Bilal:
 
     def __init__(self):
@@ -87,16 +100,46 @@ class Bilal:
         tk.Button(
             works_frame,
             text="Лучшая работа №1",
-            command=self.best_work1
-        ).pack()
+            command=self.best_work1,
+            **BUTTON_STYLE
+        ).grid(row=0, column=0, padx=5, pady=5)
+
+        tk.Button(
+            works_frame,
+            text="Открыть",
+            command=lambda: webbrowser.open(
+                "https://capeducation.getcourse.ru/pl/teach/control/lesson/view?id=335941296"
+            ),
+            bg="#8A9AA5",
+            fg="white",
+            font=("Segoe UI", 10, "bold"),
+            width=12,
+            bd=0,
+            cursor="hand2"
+        ).grid(row=0, column=1, padx=5)
 
         tk.Button(
             works_frame,
             text="Лучшая работа №2",
-            command=self.best_work2
-        ).pack()
+            command=self.best_work2,
+            **BUTTON_STYLE
+        ).grid(row=1, column=0, padx=5, pady=5)
 
-        works_frame.pack()
+        tk.Button(
+            works_frame,
+            text="Открыть",
+            command=lambda: webbrowser.open(
+                "https://capeducation.getcourse.ru/pl/teach/control/lesson/view?id=335941292&editMode=0"
+            ),
+            bg="#8A9AA5",
+            fg="white",
+            font=("Segoe UI", 10, "bold"),
+            width=12,
+            bd=0,
+            cursor="hand2"
+        ).grid(row=1, column=1, padx=5)
+
+        works_frame.pack(pady=10)
 
     def Github(self):
         webbrowser.open("https://github.com/tailer-beliy/Bilal-s-Portfolio/tree/main")
@@ -106,38 +149,108 @@ bilal = Bilal()
 
 root = tk.Tk()
 root.title("Портфолио Билала")
-root.state("zoomed")
+root.geometry("1200x800")
+root.resizable(False, False)
+
+bg_image = Image.open("background.png")  # имя файла с фоном
+bg_image = bg_image.resize(
+    (root.winfo_screenwidth(), root.winfo_screenheight())
+)
+
+bg_photo = ImageTk.PhotoImage(bg_image)
+
+background_label = tk.Label(root, image=bg_photo)
+background_label.image = bg_photo
+
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
+background_label.lower()
 
 root.bind("<Escape>", lambda event: root.destroy())
 
-label = tk.Label(root, text="")
-label.pack()
+label = tk.Label(
+    root,
+    text="Выберите раздел",
+    font=("Segoe UI", 14),
+    bg="#F8F8F8",
+    fg="#333333",
+    justify="left",
+    wraplength=900,
+    padx=25,
+    pady=20,
+    relief="flat",
+    bd=0
+)
+label.pack(pady=20, fill="x", padx=50)
 
-works_frame = tk.Frame(root)
+buttons_frame = tk.Frame(root, bg="#F5F3F0")
+buttons_frame.pack(pady=20)
+
+works_frame = tk.Frame(root, bg="#F5F3F0")
 works_frame.pack()
 
-btn1 = tk.Button(root, text="Биография", command=bilal.bio)
-btn1.pack()
+btn1 = tk.Button(
+    buttons_frame,
+    text="Биография",
+    command=bilal.bio,
+    **BUTTON_STYLE
+)
+btn1.grid(row=0, column=0, padx=10, pady=10)
 
-btn2 = tk.Button(root, text="Цель", command=bilal.objective)
-btn2.pack()
+btn2 = tk.Button(
+    buttons_frame,
+    text="Цель",
+    command=bilal.objective,
+    **BUTTON_STYLE
+)
 
-btn3 = tk.Button(root, text="История", command=bilal.history)
-btn3.pack()
+btn2.grid(row=0, column=1, padx=10, pady=10)
 
-btn4 = tk.Button(root, text="Ментор", command=bilal.mentor)
-btn4.pack()
+btn3 = tk.Button(
+    buttons_frame,
+    text="История",
+    command=bilal.history,
+    **BUTTON_STYLE
+)
+btn3.grid(row=1, column=0, padx=10, pady=10)
 
-btn5 = tk.Button(root, text="Точка А в точку Б", command=bilal.A_to_B)
-btn5.pack()
+btn4 = tk.Button(
+    buttons_frame,
+    text="Ментор",
+    command=bilal.mentor,
+    **BUTTON_STYLE
+)
+btn4.grid(row=1, column=1, padx=10, pady=10)
 
-btn6 = tk.Button(root, text="Хобби и увлечённости", command=bilal.Hobby_and_passion)
-btn6.pack()
+btn5 = tk.Button(
+    buttons_frame,
+    text="Точка А в точку Б",
+    command=bilal.A_to_B,
+    **BUTTON_STYLE
+)
+btn5.grid(row=2, column=0, padx=10, pady=10)
 
-btn7 = tk.Button(root, text="Лучшие работы на GetCourse", command=bilal.best_works)
-btn7.pack()
+btn6 = tk.Button(
+    buttons_frame,
+    text="Хобби и увлечения",
+    command=bilal.Hobby_and_passion,
+    **BUTTON_STYLE
+)
+btn6.grid(row=2, column=1, padx=10, pady=10)
 
-btn8 = tk.Button(root, text="Переход на Github", command=bilal.Github)
-btn8.pack()
+btn7 = tk.Button(
+    buttons_frame,
+    text="Лучшие работы",
+    command=bilal.best_works,
+    **BUTTON_STYLE
+)
+btn7.grid(row=3, column=0, padx=10, pady=10)
+
+btn8 = tk.Button(
+    buttons_frame,
+    text="Github",
+    command=bilal.Github,
+    **BUTTON_STYLE
+)
+btn8.grid(row=3, column=1, padx=10, pady=10)
 
 root.mainloop()
