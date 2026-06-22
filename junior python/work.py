@@ -2,11 +2,13 @@ import re
 import tkinter as tk
 from tkinter import messagebox
 import os
+import webbrowser
 try:
     with open("README.txt", "w", encoding="utf-8") as file:
         file.write(
             "Привет! Это инструкция пользования программой.\n"
             "Для начала работы закройте этот файл.\n"
+            "Для получения информации обо мне, нажмите на кликабельный блок с названием.\n"
             "Весь репозиторий записан на моём Github.\n"
             "После закрытия нажмите Enter в консоли."
         )
@@ -96,6 +98,10 @@ class Bilal:
 
         works_frame.pack()
 
+    def Github(self):
+        webbrowser.open("https://github.com/tailer-beliy/Bilal-s-Portfolio/tree/main")
+
+
 bilal = Bilal()
 
 root = tk.Tk()
@@ -131,7 +137,7 @@ btn6.pack()
 btn7 = tk.Button(root, text="Лучшие работы на GetCourse", command=bilal.best_works)
 btn7.pack()
 
-btn8 = tk.Button(root, text="Ссылка на Github", command="")
+btn8 = tk.Button(root, text="Переход на Github", command=bilal.Github)
 btn8.pack()
 
 root.mainloop()
